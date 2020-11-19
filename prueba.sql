@@ -530,118 +530,71 @@ INSERT INTO factura_producto(
   );
 
 --- Comprobando relación entre tablas
--- ¿Que cliente realizó la compra más cara?
+
+-- ¿Que cliente realizó la compra más cara? PD: Se da el subtotal de la factura (no se calcula impuesto)
 SELECT y_cliente.nombre, cliente_id_compra_mas_alta.factura_numero, cliente_id_compra_mas_alta.subtotal_factura_mayor
-  FROM
-  (SELECT y_factura.cliente_id, factura_con_compra_mas_cara.factura_numero, factura_con_compra_mas_cara.subtotal_factura_mayor
-    FROM
-    (SELECT
-        sum(total_prod) AS subtotal_factura_mayor, factura_numero 
-        FROM
-        (SELECT
-          (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
-          FROM
-            (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
-            FROM
-              (SELECT id, valor_unitario
-              FROM producto
-              ) AS x
-              INNER JOIN factura_producto AS y ON x.id = y.producto_id
-            ) AS sub_total_prod
-        ) AS total_factura
-        GROUP BY factura_numero
-        ORDER BY subtotal_factura_mayor DESC
-        LIMIT 1) 
-    AS factura_con_compra_mas_cara  
-    INNER JOIN factura AS y_factura ON factura_con_compra_mas_cara.factura_numero = y_factura.numero
-  ) 
-  AS cliente_id_compra_mas_alta
-  INNER JOIN cliente AS y_cliente ON cliente_id_compra_mas_alta.cliente_id = y_cliente.id
- ;
-
-
-SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
-  FROM
-    (SELECT id, valor_unitario
-    FROM producto
-    ) AS x
-    INNER JOIN factura_producto AS y ON x.id = y.producto_id
-
---- subtotal de compra mas alta
-  SELECT
-    sum(total_prod) AS subtotal_factura_mayor, factura_numero 
-    FROM
-    (SELECT
-      (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
-      FROM
-        (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
-        FROM
-          (SELECT id, valor_unitario
-          FROM producto
+FROM (
+  SELECT y_factura.cliente_id, factura_con_compra_mas_cara.factura_numero, factura_con_compra_mas_cara.subtotal_factura_mayor
+  FROM (
+    SELECT
+      sum(total_prod) AS subtotal_factura_mayor, factura_numero 
+    FROM (
+      SELECT (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
+      FROM(
+          SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
+          FROM (
+            SELECT id, valor_unitario
+            FROM producto
           ) AS x
           INNER JOIN factura_producto AS y ON x.id = y.producto_id
-        ) AS sub_total_prod
+      ) AS sub_total_prod
     ) AS total_factura
     GROUP BY factura_numero
     ORDER BY subtotal_factura_mayor DESC
-    LIMIT 1  
-  ;
+    LIMIT 1
+  ) AS factura_con_compra_mas_cara  
+  INNER JOIN factura AS y_factura ON factura_con_compra_mas_cara.factura_numero = y_factura.numero
+) AS cliente_id_compra_mas_alta
+INNER JOIN cliente AS y_cliente ON cliente_id_compra_mas_alta.cliente_id = y_cliente.id
+ ;
+-- ¿Que cliente pagó sobre 1.000.000 de monto? Nota: el ejercicio decía 100, pero dado que puse precios altos subí la cifra, esta vez si se considero IVA
 
-  -----subtotal de todas las compras por factura
-SELECT
-  sum(total_prod), factura_numero 
-  FROM
-  (SELECT
-    (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
-    FROM
-      (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
-      FROM
-        (SELECT id, valor_unitario
-        FROM producto
-        ) AS x
-        INNER JOIN factura_producto AS y ON x.id = y.producto_id
-      ) AS sub_total_prod
-  ) AS total_factura
-  GROUP BY factura_numero
-;
-
-
-
----- sumatoria de todos los productos por cantidad
-SELECT
-    (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
-    FROM
-      (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
-      FROM
-        (SELECT id, valor_unitario
-        FROM producto
-        ) as x
-        INNER JOIN factura_producto AS y ON x.id = y.producto_id
-      ) AS sub_total_prod
-;
-
-------- Cliente ID, numero_factura y sub-total del cliente que pago más
-
-
-SELECT y_factura.cliente_id, factura_con_compra_mas_cara.factura_numero, factura_con_compra_mas_cara.subtotal_factura_mayor
-  FROM
-  (SELECT
-      sum(total_prod) AS subtotal_factura_mayor, factura_numero 
-      FROM
-      (SELECT
-        (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
-        FROM
-          (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
-          FROM
-            (SELECT id, valor_unitario
+SELECT y_cliente.nombre, clientes_id_compra_mas_un_millon.factura_numero, clientes_id_compra_mas_un_millon.subtotal_factura_mayor
+FROM (
+  SELECT y_factura.cliente_id, factura_con_compra_mas_cara.factura_numero, factura_con_compra_mas_cara.subtotal_factura_mayor
+  FROM (
+    SELECT
+      (sum(total_prod)*1.19) AS subtotal_factura_mayor, factura_numero 
+    FROM (
+      SELECT (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
+      FROM(
+          SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
+          FROM (
+            SELECT id, valor_unitario
             FROM producto
-            ) AS x
-            INNER JOIN factura_producto AS y ON x.id = y.producto_id
-          ) AS sub_total_prod
-      ) AS total_factura
-      GROUP BY factura_numero
-      ORDER BY subtotal_factura_mayor DESC
-      LIMIT 1) 
-    AS factura_con_compra_mas_cara  
-    INNER JOIN factura AS y_factura ON factura_con_compra_mas_cara.factura_numero = y_factura.numero
-  ;
+          ) AS x
+          INNER JOIN factura_producto AS y ON x.id = y.producto_id
+      ) AS sub_total_prod
+    ) AS total_factura
+    GROUP BY factura_numero
+    ORDER BY subtotal_factura_mayor DESC
+  ) AS factura_con_compra_mas_cara  
+  INNER JOIN factura AS y_factura ON factura_con_compra_mas_cara.factura_numero = y_factura.numero
+) AS clientes_id_compra_mas_un_millon
+INNER JOIN cliente AS y_cliente ON clientes_id_compra_mas_un_millon.cliente_id = y_cliente.id
+WHERE subtotal_factura_mayor > 1000000
+;
+
+-- ¿Cuantos clientes han comprado el producto 6?
+SELECT COUNT(DISTINCT y_factura.cliente_id) AS n_clientes_que_compraron_producto_6
+  FROM (
+  SELECT x.id, y.factura_numero  
+    FROM (
+      SELECT id
+      FROM producto
+    ) AS x
+  INNER JOIN factura_producto AS y ON x.id = y.producto_id
+  WHERE x.id = 6
+  ) AS facturas_item_6
+  INNER JOIN factura AS y_factura ON facturas_item_6.factura_numero= y_factura.numero
+;
