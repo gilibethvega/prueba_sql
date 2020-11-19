@@ -559,12 +559,12 @@ INNER JOIN cliente AS y_cliente ON cliente_id_compra_mas_alta.cliente_id = y_cli
  ;
 -- ¿Que cliente pagó sobre 1.000.000 de monto? Nota: el ejercicio decía 100, pero dado que puse precios altos subí la cifra, esta vez si se considero IVA
 
-SELECT y_cliente.nombre, clientes_id_compra_mas_un_millon.factura_numero, clientes_id_compra_mas_un_millon.subtotal_factura_mayor
+SELECT y_cliente.nombre, clientes_id_compra_mas_un_millon.factura_numero, clientes_id_compra_mas_un_millon.total_factura_mayor_un_millon
 FROM (
-  SELECT y_factura.cliente_id, factura_con_compra_mas_cara.factura_numero, factura_con_compra_mas_cara.subtotal_factura_mayor
+  SELECT y_factura.cliente_id, factura_con_compra_mas_cara.factura_numero, factura_con_compra_mas_cara.total_factura_mayor_un_millon
   FROM (
     SELECT
-      (sum(total_prod)*1.19) AS subtotal_factura_mayor, factura_numero 
+      (sum(total_prod)*1.19) AS total_factura_mayor_un_millon, factura_numero 
     FROM (
       SELECT (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
       FROM(
@@ -577,12 +577,12 @@ FROM (
       ) AS sub_total_prod
     ) AS total_factura
     GROUP BY factura_numero
-    ORDER BY subtotal_factura_mayor DESC
+    ORDER BY total_factura_mayor_un_millon DESC
   ) AS factura_con_compra_mas_cara  
   INNER JOIN factura AS y_factura ON factura_con_compra_mas_cara.factura_numero = y_factura.numero
 ) AS clientes_id_compra_mas_un_millon
 INNER JOIN cliente AS y_cliente ON clientes_id_compra_mas_un_millon.cliente_id = y_cliente.id
-WHERE subtotal_factura_mayor > 1000000
+WHERE total_factura_mayor_un_millon > 1000000
 ;
 
 -- ¿Cuantos clientes han comprado el producto 6?
