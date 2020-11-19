@@ -391,8 +391,139 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '2',
+    '6',
     '1003',
     '1'
   );
 -- Cliente 2_factura3
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '3',
+    '1004',
+    '1'
+  );
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '4',
+    '1004',
+    '1'
+  );
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '2',
+    '1004',
+    '1'
+  );
+-- Cliente 3_factura 1
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '5',
+    '1005',
+    '1'
+  );
+-- Cliente 4_factura 1
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '7',
+    '1006',
+    '1'
+  );
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '8',
+    '1006',
+    '1'
+  );
+-- Cliente 4_factura 2
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '1',
+    '1007',
+    '1'
+  );
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '2',
+    '1007',
+    '3'
+  );
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '3',
+    '1007',
+    '1'
+  );
+-- Cliente 4_factura 3
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '4',
+    '1008',
+    '1'
+  );
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '5',
+    '1008',
+    '1'
+  );
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '6',
+    '1008',
+    '1'
+  );
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '7',
+    '1008',
+    '1'
+  );
+-- Cliente 4_factura 4
+INSERT INTO factura_producto( 
+  producto_id,
+  factura_numero,
+  cantidad_producto)
+  VALUES (
+    '1',
+    '1009',
+    '2'
+  );
