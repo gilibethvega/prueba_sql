@@ -1,23 +1,24 @@
 --Crear base de datos
-CREATE DATABASE compras
+CREATE DATABASE compras;
 \c compras
 --Se crean tablas según modelo lógico
 CREATE TABLE cliente(
   id INT,
   rut VARCHAR(10),
   nombre VARCHAR(50),
-  direccion VARCHAR(255)
+  direccion VARCHAR(255),
+  PRIMARY KEY (id)
 );
 CREATE TABLE factura(
   numero INT,
   fecha DATE,
-  cliente_id REFERENCES cliente(id),
+  cliente_id INT REFERENCES cliente(id),
   PRIMARY KEY (numero)
 );
 CREATE TABLE categoria(
   id INT,
   nombre VARCHAR(30),
-  descripcion VARCHAR(255)
+  descripcion VARCHAR(255),
   PRIMARY KEY (id)
 );
 CREATE TABLE producto(
@@ -25,13 +26,13 @@ CREATE TABLE producto(
   nombre VARCHAR(30),
   descripcion VARCHAR(250),
   valor_unitario INT,
-  categoria_id REFERENCES categoria(id)
+  categoria_id INT REFERENCES categoria(id),
   PRIMARY KEY (id)
 );
 CREATE TABLE factura_producto(
   id SERIAL,
-  producto_id REFERENCES producto(id),
-  factura_numero REFERENCES factura(numero),
+  producto_id INT REFERENCES producto(id),
+  factura_numero INT REFERENCES factura(numero),
   cantidad_producto INT,
   PRIMARY KEY (id)
 );
@@ -100,7 +101,7 @@ INSERT INTO categoria(
   VALUES (
     1,
     'Deportes',
-    'Ropa, zapatos, accesorios, bicicletas y mundo fitness',
+    'Ropa, zapatos, accesorios, bicicletas y mundo fitness'
   );
 INSERT INTO categoria(
   id, 
@@ -109,16 +110,16 @@ INSERT INTO categoria(
   VALUES (
     2,
     'Muebles',
-    'Living, Comedor, dormitotio, terraza y home office',
+    'Living, Comedor, dormitotio, terraza y home office'
   );
 INSERT INTO categoria(
   id, 
   nombre,
   descripcion)
   VALUES (
-    2,
+    3,
     'Tecnología',
-    'TV, computación, audio, fotografía y smart-home',
+    'TV, computación, audio, fotografía y smart-home'
   );
 -- 8 productos
 INSERT INTO producto( 
@@ -130,7 +131,7 @@ INSERT INTO producto(
     'Zapatillas Asics Kayano 27',
     'Zapatillas recomendadas para corredores con pie pronador',
     80000,
-    'Deportes'
+    1
   );
 INSERT INTO producto( 
   nombre,
@@ -141,7 +142,7 @@ INSERT INTO producto(
     'Candado Onguard',
     'Candado u-lock para proteger tu bicicleta o moto',
     30000,
-    'Deportes'
+    1
   );
 INSERT INTO producto( 
   nombre,
@@ -152,7 +153,7 @@ INSERT INTO producto(
     'Iphone 11',
     'El mejor telefono de la historia de Apple',
     1000000,
-    'Tecnología'
+    3
   );
 INSERT INTO producto( 
   nombre,
@@ -163,7 +164,7 @@ INSERT INTO producto(
     'TV Samsung 50 pulgadas',
     'Sintoniza los juegos de la roja en tu Samsung',
     300000,
-    'Tecnología'
+    3
   );
 INSERT INTO producto( 
   nombre,
@@ -174,7 +175,7 @@ INSERT INTO producto(
     'Respaldo Cama Rosen Blue',
     'Dale estilo a tu cama King size con este respaldo con garantía Rosen',
     400000,
-    'Muebles'
+    2
   );
 INSERT INTO producto( 
   nombre,
@@ -185,7 +186,7 @@ INSERT INTO producto(
     'Mesa de centro Alianz',
     'Esta mesa estilo industrial esta hecha con roble original importado',
     400000,
-    'Muebles'
+    2
   );
 INSERT INTO producto( 
   nombre,
@@ -196,7 +197,7 @@ INSERT INTO producto(
     'Sofa Rosen Genova',
     'Sofa seccional de 225 cm de ancho, 93 cm de profundidad y 120cm de alto',
     600000,
-    'Muebles'
+    2
   );
 INSERT INTO producto( 
   nombre,
@@ -207,7 +208,7 @@ INSERT INTO producto(
     'Biciclete Venus Oxford',
     'Bicileta montañera apta para todo terreno, tanto ciudad como montaña',
     200000,
-    'Deportes'
+    1
   );
 -- 10 facturas
 INSERT INTO factura( 
@@ -215,90 +216,90 @@ INSERT INTO factura(
   fecha,
   cliente_id)
   VALUES (
-    '1000',
+    1000,
     '2020/11/14',
-    '20173'
+    20173
   );
 INSERT INTO factura( 
   numero,
   fecha,
   cliente_id)
   VALUES (
-    '1001',
+    1001,
     '2020/11/15',
-    '20173'
+    20173
   );
 INSERT INTO factura( 
   numero,
   fecha,
   cliente_id)
   VALUES (
-    '1002',
+    1002,
     '2020/11/16',
-    '20174'
+    20174
   );
 INSERT INTO factura( 
   numero,
   fecha,
   cliente_id)
   VALUES (
-    '1003',
+    1003,
     '2020/11/14',
-    '20174'
+    20174
   );
 INSERT INTO factura( 
   numero,
   fecha,
   cliente_id)
   VALUES (
-    '1004',
+    1004,
     '2020/11/15',
-    '20174'
+    20174
   );
 INSERT INTO factura( 
   numero,
   fecha,
   cliente_id)
   VALUES (
-    '1005',
+    1005,
     '2020/11/15',
-    '20175'
+    20175
+ );
+INSERT INTO factura( 
+  numero,
+  fecha,
+  cliente_id)
+  VALUES (
+    1006,
+    '2020/11/15',
+    20176
   );
 INSERT INTO factura( 
   numero,
   fecha,
   cliente_id)
   VALUES (
-    '1006',
+    1007,
     '2020/11/15',
-    '20176'
+    20176
   );
 INSERT INTO factura( 
   numero,
   fecha,
   cliente_id)
   VALUES (
-    '1007',
+    1008,
     '2020/11/15',
-    '20176'
+    20176
   );
 INSERT INTO factura( 
   numero,
   fecha,
   cliente_id)
   VALUES (
-    '1008',
+    1009,
     '2020/11/15',
-    '20176'
-  );
-INSERT INTO factura( 
-  numero,
-  fecha,
-  cliente_id)
-  VALUES (
-    '1009',
-    '2020/11/15',
-    '20176'
+    20176
   );
 -- Insertamos ahora la cantidad de productos en cada factura
 --Cliente 1_factura 1
@@ -326,27 +327,27 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '4',
-    '1001',
-    '1'
+    4,
+    1001,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '5',
-    '1001',
-    '2'
+    5,
+    1001,
+    2
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '6',
-    '1001',
-    '1'
+    6,
+    1001,
+    1
   );
 -- Cliente 2_factura1
 INSERT INTO factura_producto( 
@@ -354,27 +355,27 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '5',
-    '1002',
-    '1'
+    5,
+    1002,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '8',
-    '1002',
-    '2'
+    8,
+    1002,
+    2
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '1',
-    '1002',
-    '1'
+    1,
+    1002,
+    1
   );
 -- Cliente 2_factura2
 INSERT INTO factura_producto( 
@@ -382,18 +383,18 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '7',
-    '1003',
-    '1'
+    7,
+    1003,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '6',
-    '1003',
-    '1'
+    6,
+    1003,
+    1
   );
 -- Cliente 2_factura3
 INSERT INTO factura_producto( 
@@ -401,27 +402,27 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '3',
-    '1004',
-    '1'
+    3,
+    1004,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '4',
-    '1004',
-    '1'
+    4,
+    1004,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '2',
-    '1004',
-    '1'
+    2,
+    1004,
+    1
   );
 -- Cliente 3_factura 1
 INSERT INTO factura_producto( 
@@ -429,9 +430,9 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '5',
-    '1005',
-    '1'
+    2,
+    1005,
+    1
   );
 -- Cliente 4_factura 1
 INSERT INTO factura_producto( 
@@ -439,18 +440,18 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '7',
-    '1006',
-    '1'
+    7,
+    1006,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '8',
-    '1006',
-    '1'
+    8,
+    1006,
+    1
   );
 -- Cliente 4_factura 2
 INSERT INTO factura_producto( 
@@ -458,27 +459,27 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '1',
-    '1007',
-    '1'
+    1,
+    1007,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '2',
-    '1007',
-    '3'
+    2,
+    1007,
+    3
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '3',
-    '1007',
-    '1'
+    3,
+    1007,
+    1
   );
 -- Cliente 4_factura 3
 INSERT INTO factura_producto( 
@@ -486,36 +487,36 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '4',
-    '1008',
-    '1'
+    4,
+    1008,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '5',
-    '1008',
-    '1'
+    5,
+    1008,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '6',
-    '1008',
-    '1'
+    6,
+    1008,
+    1
   );
 INSERT INTO factura_producto( 
   producto_id,
   factura_numero,
   cantidad_producto)
   VALUES (
-    '7',
-    '1008',
-    '1'
+    7,
+    1008,
+    1
   );
 -- Cliente 4_factura 4
 INSERT INTO factura_producto( 
@@ -523,7 +524,124 @@ INSERT INTO factura_producto(
   factura_numero,
   cantidad_producto)
   VALUES (
-    '1',
-    '1009',
-    '2'
+    1,
+    1009,
+    2
   );
+
+--- Comprobando relación entre tablas
+-- ¿Que cliente realizó la compra más cara?
+SELECT y_cliente.nombre, cliente_id_compra_mas_alta.factura_numero, cliente_id_compra_mas_alta.subtotal_factura_mayor
+  FROM
+  (SELECT y_factura.cliente_id, factura_con_compra_mas_cara.factura_numero, factura_con_compra_mas_cara.subtotal_factura_mayor
+    FROM
+    (SELECT
+        sum(total_prod) AS subtotal_factura_mayor, factura_numero 
+        FROM
+        (SELECT
+          (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
+          FROM
+            (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
+            FROM
+              (SELECT id, valor_unitario
+              FROM producto
+              ) AS x
+              INNER JOIN factura_producto AS y ON x.id = y.producto_id
+            ) AS sub_total_prod
+        ) AS total_factura
+        GROUP BY factura_numero
+        ORDER BY subtotal_factura_mayor DESC
+        LIMIT 1) 
+    AS factura_con_compra_mas_cara  
+    INNER JOIN factura AS y_factura ON factura_con_compra_mas_cara.factura_numero = y_factura.numero
+  ) 
+  AS cliente_id_compra_mas_alta
+  INNER JOIN cliente AS y_cliente ON cliente_id_compra_mas_alta.cliente_id = y_cliente.id
+ ;
+
+
+SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
+  FROM
+    (SELECT id, valor_unitario
+    FROM producto
+    ) AS x
+    INNER JOIN factura_producto AS y ON x.id = y.producto_id
+
+--- subtotal de compra mas alta
+  SELECT
+    sum(total_prod) AS subtotal_factura_mayor, factura_numero 
+    FROM
+    (SELECT
+      (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
+      FROM
+        (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
+        FROM
+          (SELECT id, valor_unitario
+          FROM producto
+          ) AS x
+          INNER JOIN factura_producto AS y ON x.id = y.producto_id
+        ) AS sub_total_prod
+    ) AS total_factura
+    GROUP BY factura_numero
+    ORDER BY subtotal_factura_mayor DESC
+    LIMIT 1  
+  ;
+
+  -----subtotal de todas las compras por factura
+SELECT
+  sum(total_prod), factura_numero 
+  FROM
+  (SELECT
+    (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
+    FROM
+      (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
+      FROM
+        (SELECT id, valor_unitario
+        FROM producto
+        ) AS x
+        INNER JOIN factura_producto AS y ON x.id = y.producto_id
+      ) AS sub_total_prod
+  ) AS total_factura
+  GROUP BY factura_numero
+;
+
+
+
+---- sumatoria de todos los productos por cantidad
+SELECT
+    (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
+    FROM
+      (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
+      FROM
+        (SELECT id, valor_unitario
+        FROM producto
+        ) as x
+        INNER JOIN factura_producto AS y ON x.id = y.producto_id
+      ) AS sub_total_prod
+;
+
+------- Cliente ID, numero_factura y sub-total del cliente que pago más
+
+
+SELECT y_factura.cliente_id, factura_con_compra_mas_cara.factura_numero, factura_con_compra_mas_cara.subtotal_factura_mayor
+  FROM
+  (SELECT
+      sum(total_prod) AS subtotal_factura_mayor, factura_numero 
+      FROM
+      (SELECT
+        (cantidad_producto * valor_unitario) AS total_prod, factura_numero  
+        FROM
+          (SELECT y.cantidad_producto, x.valor_unitario, y.factura_numero  
+          FROM
+            (SELECT id, valor_unitario
+            FROM producto
+            ) AS x
+            INNER JOIN factura_producto AS y ON x.id = y.producto_id
+          ) AS sub_total_prod
+      ) AS total_factura
+      GROUP BY factura_numero
+      ORDER BY subtotal_factura_mayor DESC
+      LIMIT 1) 
+    AS factura_con_compra_mas_cara  
+    INNER JOIN factura AS y_factura ON factura_con_compra_mas_cara.factura_numero = y_factura.numero
+  ;
