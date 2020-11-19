@@ -585,16 +585,20 @@ INNER JOIN cliente AS y_cliente ON clientes_id_compra_mas_un_millon.cliente_id =
 WHERE total_factura_mayor_un_millon > 1000000
 ;
 
--- ¿Cuantos clientes han comprado el producto 6?
-SELECT COUNT(DISTINCT y_factura.cliente_id) AS n_clientes_que_compraron_producto_6
-  FROM (
-  SELECT x.id, y.factura_numero  
+-- ¿Cuantos clientes han comprado el producto 6? -- Se cambia por ¿Cuáles cliente compraron el producto 6?
+SELECT clientes_producto6.cliente_id, clientes_producto6.factura_numero, cliente.nombre
+FROM (
+  SELECT y_factura.cliente_id, facturas_item_6.factura_numero
     FROM (
-      SELECT id
-      FROM producto
-    ) AS x
-  INNER JOIN factura_producto AS y ON x.id = y.producto_id
-  WHERE x.id = 6
-  ) AS facturas_item_6
-  INNER JOIN factura AS y_factura ON facturas_item_6.factura_numero= y_factura.numero
+    SELECT x.id, y.factura_numero  
+      FROM (
+        SELECT id
+        FROM producto
+      ) AS x
+    INNER JOIN factura_producto AS y ON x.id = y.producto_id
+    WHERE x.id = 6
+    ) AS facturas_item_6
+    INNER JOIN factura AS y_factura ON facturas_item_6.factura_numero= y_factura.numero
+) AS clientes_producto6
+INNER JOIN cliente ON clientes_producto6.cliente_id = cliente.id
 ;
